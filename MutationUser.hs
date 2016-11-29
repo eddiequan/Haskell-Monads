@@ -31,6 +31,11 @@ swap p1 p2 =
         set p1 p2val >>>
         returnVal()
 
+swapCycle :: Mutable a => [Pointer a] -> StateOp ()
+swapCycle [] = returnVal ()
+swapCycle (x:[])
+swapCycle(x:y:rest) = swap x y >>> swapCycle (y:rest)
+
 -- temporary test fixtures. remove later.
 testMem :: Memory
 testMem = [(1, IntVal 10), (2, IntVal 30), (3, IntVal 300), (4, BoolVal False)]
