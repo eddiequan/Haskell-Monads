@@ -12,7 +12,7 @@ module Mutation (
     )
     where 
 
-import AList (AList, lookupA, insertA, updateA, hasKey)
+import AList (AList, lookupA, insertA, updateA, removeA, hasKey)
 
 -- A type representing the possible values stored in memory.
 data Value = IntVal Integer |
@@ -118,6 +118,23 @@ f >~> g = StateOp (\s ->
 returnVal :: a -> StateOp a
 returnVal x = StateOp (\s -> (x, s))
 
+
+alloc :: Mutable a => a -> StateOp (Pointer a)
+alloc val = StateOp (\s ->
+    runOp (def (generatePhreshNumber s 0) val) s)
+
+generatePhreshNumber state acc =
+    if (hasKey state acc) then
+        generatePhreshNumber state (acc + 1)
+    else
+        acc
+
+free :: Mutable a => Pointer a -> StateOp ()
+free (P location) = StateOp (\s ->
+    if (hasKey s location) then
+        ((), removeA s location)
+    else
+        error "Pointer not found in memory.")
 
 -- test
 f :: Integer -> StateOp Bool

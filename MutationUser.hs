@@ -29,12 +29,12 @@ swap p1 p2 =
         get p2 >~> \p2val ->
         set p2 p1val >>>
         set p1 p2val >>>
-        returnVal()
+        returnVal ()
 
 swapCycle :: Mutable a => [Pointer a] -> StateOp ()
 swapCycle [] = returnVal ()
-swapCycle (x:[])
-swapCycle(x:y:rest) = swap x y >>> swapCycle (y:rest)
+swapCycle (x:[]) = returnVal ()
+swapCycle (x:y:rest) = swap x y >>> swapCycle (y:rest)
 
 -- temporary test fixtures. remove later.
 testMem :: Memory

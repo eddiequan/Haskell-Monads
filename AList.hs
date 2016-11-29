@@ -8,6 +8,7 @@ module AList (
     lookupA,
     insertA,
     updateA,
+    removeA,
     hasKey
     )
     where
@@ -42,6 +43,9 @@ updateA alist (key, val) =
             let (a, b) = association in
             if (a == key) then (a, val) else (a, b)) alist
 
+removeA :: Eq a => AList a b -> a -> AList a b
+removeA alist key =
+    filter (\x -> let (k, v) = x in k /= key) alist
 
 -- Helpers
 hasKey :: Eq a => AList a b -> a -> Bool
