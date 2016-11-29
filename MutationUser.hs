@@ -24,15 +24,12 @@ run :: StateOp a -> Memory -> (a, Memory)
 run (StateOp f) mem = f mem
 
 swap :: Mutable a => Pointer a -> Pointer a -> StateOp ()
-swap (P p1) (P p2) = 
-    StateOp (\s -> 
-    let (val1, s1) = runOp (get (P p1)) s
-        (val2, s2) = runOp (get (P p2)) s
-    in
-        --TODO: I'm getting a type error when I dont cast the type variable a as Integers. Why?
-        runOp ((set ((P p1) :: Pointer Integer) val2) >~> \x ->
-        set ((P p2) :: Pointer Integer) val1)
-    s)
+swap p1 p2 = 
+        get p1 >~> \p1val ->
+        get p2 >~> \p2val ->
+        set p2 p1val >>>
+        set p1 p2val >>>
+        returnVal()
 
 -- temporary test fixtures. remove later.
 testMem :: Memory
