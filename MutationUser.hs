@@ -4,7 +4,8 @@ This file contains code which uses the mutation library found in Mutation.hs
 -}
 
 import Mutation (
-    get, set, def, Mutable, Pointer, Memory
+    get, set, def, Mutable, Pointer, Memory,
+    StateOp, returnVal, (>>>), (>~>), runOp
     )
 
 -- | Takes a number <n> and memory, and stores two new values in memory:
@@ -12,10 +13,9 @@ import Mutation (
 --   - the boolean (n > 0) at location 500
 --   Return the pointer to each stored value, and the new memory.
 --   You may assume these locations are not already used by the memory.
-pointerTest :: Integer -> Memory -> ((Pointer Integer, Pointer Bool), Memory)
-pointerTest n memory =
-    let (x, memory1) = def memory 100 (n + 3)
-        (y, memory2) = def memory1 500 (n > 0)
-    in ((x, y), memory2)
-
+pointerTest :: Integer -> StateOp (Pointer Integer, Pointer Bool)
+pointerTest n = StateOp (\memory ->
+    let (key, val) = runOp (def 100 (n + 3) >~> \x ->
+                            def 500 (n > 0)) memory
+    in ((P 100, P 500), val))
 
