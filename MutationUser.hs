@@ -15,7 +15,7 @@ import Mutation (
 pointerTest :: Integer -> Memory -> ((Pointer Integer, Pointer Bool), Memory)
 pointerTest n memory =
     let (x, memory1) = def memory 100 (n + 3)
-        (y, memory2) = def memory2 500 (n > 0)
+        (y, memory2) = def memory1 500 (n > 0)
     in ((x, y), memory2)
 
 
