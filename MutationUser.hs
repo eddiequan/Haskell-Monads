@@ -2,10 +2,9 @@
 
 This file contains code which uses the mutation library found in Mutation.hs
 -}
-
 import Mutation (
-    get, set, def, Mutable, Pointer, Memory,
-    StateOp, returnVal, (>>>), (>~>), runOp
+    get, set, def, Mutable, Pointer(..), Memory,                                                        
+    StateOp(..), returnVal, (>>>), (>~>), runOp
     )
 
 -- | Takes a number <n> and memory, and stores two new values in memory:

@@ -7,9 +7,10 @@ which you will use as the data structure for storing "mutable" data.
 -- **YOU MUST ADD ALL FUNCTIONS AND TYPES TO THIS LIST AS YOU CREATE THEM!!**
 module Mutation (
     Mutable, get, set, def,
-    Memory, Pointer, Value, StateOp, runOp, (>>>), (>~>), returnVal
+    Memory, Pointer(..), Value(..), StateOp(..),
+    runOp, (>>>), (>~>), returnVal
     )
-    where
+    where 
 
 import AList (AList, lookupA, insertA, updateA, hasKey)
 
