@@ -5,10 +5,11 @@ which you will use as the data structure for storing "mutable" data.
 -}
 
 -- **YOU MUST ADD ALL FUNCTIONS AND TYPES TO THIS LIST AS YOU CREATE THEM!!**
-module Mutation (
+module CompoundMutation (
     Mutable, get, set, def,
     Memory, Pointer(..), Value(..), StateOp(..),
-    runOp, (>>>), (>~>), returnVal
+    runOp, (>>>), (>~>), returnVal, Person(..), (@@), age, isStudent,
+    alloc, free
     )
     where 
 
@@ -149,7 +150,18 @@ f >~> g = StateOp (\s ->
         newStateOp = g x
     in runOp newStateOp s1)
 
---(@@) :: Person a => Pointer a -> 
+(@@) :: Pointer Person -> (Pointer Person -> Pointer b) -> Pointer b
+pointer @@ extract_function = extract_function pointer
+
+age :: Pointer Person -> Pointer Integer
+age (PP ageLoc stuLoc) = 
+  (P ageLoc)
+
+isStudent :: Pointer Person -> Pointer Bool
+isStudent (PP ageLoc stuLoc) = 
+  (P stuLoc)
+
+
 returnVal :: a -> StateOp a
 returnVal x = StateOp (\s -> (x, s))
 

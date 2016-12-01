@@ -24,6 +24,12 @@ lookupA alist key =
     in
     if (a == key) then b else lookupA (tail alist) key
 
+-- Value: int; Value: boolean
+lookupAForPerson :: Eq a => AList a b -> a -> (b,b)
+lookupAForPerson alist key = 
+  let (a, b) = head alist
+  in 
+  if (a == key) then (b, snd (head (tail alist))) else lookupAForPerson (tail alist) key
 -- | Returns a new association list which is the old one, except with 
 --   the new key-value pair inserted. However, it returns the *same* list
 --   if the key already exists in the list.
@@ -33,6 +39,11 @@ insertA alist (key, val) =
         alist
     else
         (key, val) : alist
+
+-- | Allows for insert of same keys
+personInsert :: Eq a => AList a b -> (a, b) -> AList a b
+personInsert alist (key, val) = 
+  (key, val) : alist
 
 -- | Returns a new association list which is the old one, except with 
 --   the value corresponding to the given key changed to the given new value.
